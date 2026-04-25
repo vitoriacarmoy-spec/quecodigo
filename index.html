@@ -14,7 +14,46 @@
 <label><input type="checkbox" value="javah">Java</label>
 <label><input type="checkbox" value="pehp">Php</label>
 <label><input type="checkbox" value="javisc">Javisc</label>
+<ul>id="resultados"</ul>
+<script>
+    const busca = document.getElementById("busca");
+    const checkboxes = document.querySelectorAll("input[type=checkbox]");
+    const resultados = document.getElementById("resultados");
 
+    let debounceTimer;
+
+
+function buscar() {
+  clearTimeout(debounceTimer);
+
+  debounceTimer = setTimeout(async () => {
+    const texto = busca.value;
+
+    const filtros = Array.from(checkboxes)
+      .filter(c => c.checked)
+      .map(c => c.value);
+
+    const response = await fetch("/buscar", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ texto, filtros })
+    });
+
+    const data = await response.json();
+
+    resultados.innerHTML = data
+      .map(item => `<li>${item.titulo}</li>`)
+      .join("");
+  }, 300);
+}
+
+// eventos corretos
+busca.addEventListener("input", buscar);
+checkboxes.forEach(c => c.addEventListener("change", buscar));
+    
+</script>
 </div>
 </body>
 </html>
