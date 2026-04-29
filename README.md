@@ -1,2 +1,2 @@
 # quecodigo
-Site para primoramento de biblioteca e armazenamento de bem mais dados que o usual.
+Biblioteca de códigos pessoal feita com chat gpt para eu organizar meus estudos.
