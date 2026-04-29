@@ -1,59 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <title>Biblioteca de Código</title>
+  <link rel="stylesheet" href="hm.css">
 </head>
 <body>
-    
-    <input type="text"
- id="busca" placeholder="Buscar...">
 
-<div>
-<label><input type="checkbox" value="javah">Java</label>
-<label><input type="checkbox" value="pehp">Php</label>
-<label><input type="checkbox" value="javisc">Javisc</label>
-<ul>id="resultados"</ul>
-<script>
-    const busca = document.getElementById("busca");
-    const checkboxes = document.querySelectorAll("input[type=checkbox]");
-    const resultados = document.getElementById("resultados");
+  <div class="top-bar">
+    <input type="text" id="busca" placeholder="Buscar...">
 
-    let debounceTimer;
+    <div class="filtros">
+      <label><input type="checkbox" value="funcao"> Função</label>
+      <label><input type="checkbox" value="codigo"> Código</label>
+      <label><input type="checkbox" value="java"> Java</label>
+      <label><input type="checkbox" value="php"> PHP</label>
+      <label><input type="checkbox" value="javascript"> JavaScript</label>
+      <label><input type="checkbox" value="css"> CSS</label>
+      <label><input type="checkbox" value="c#"> C#</label>
+    </div>
 
+    <button onclick="buscar()">Pesquisar</button>
+  </div>
 
-function buscar() {
-  clearTimeout(debounceTimer);
+  <div id="resultados"></div>
 
-  debounceTimer = setTimeout(async () => {
-    const texto = busca.value;
-
-    const filtros = Array.from(checkboxes)
-      .filter(c => c.checked)
-      .map(c => c.value);
-
-    const response = await fetch("/buscar", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ texto, filtros })
-    });
-
-    const data = await response.json();
-
-    resultados.innerHTML = data
-      .map(item => `<li>${item.titulo}</li>`)
-      .join("");
-  }, 300);
-}
-
-// eventos corretos
-busca.addEventListener("input", buscar);
-checkboxes.forEach(c => c.addEventListener("change", buscar));
-    
-</script>
-</div>
+  <script src="front.js"></script>
+  
 </body>
 </html>
